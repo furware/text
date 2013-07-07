@@ -1,37 +1,29 @@
-FURWARE text is a text-on-prim script for Second Life (R). It has been open sourced under the MIT license in July 2013. Please also see http://wiki.secondlife.com/wiki/FURWARE_text for more information.
+### FURWARE text v2.0
 
-You can get the whole package including the display creator, meshes and font textures at http://marketplace.secondlife.com/p/FURWARE-text-v20-open-source-Text-on-prims-with-a-single-script/141379
+#### English
 
-From the readme notecard:
+The user manual as well as developer documentation is available at
 
+http://wiki.secondlife.com/wiki/FURWARE_text
 
-=====  FURWARE text v2.0 - English  =====
+FURWARE text is a Second Life (R) **script for displaying text** on prims using textures. It is intended to be **integrated in your objects** in which it will be controlled by **your own scripts**.
 
-
-***  The user manual as well as developer documentation is available at
-
-    http://wiki.secondlife.com/wiki/FURWARE_text
-
-***  Product description:
-
-FURWARE text is a script for displaying text on prims using textures. It is intended to be integrated in your objects in which it will be controlled by your own scripts.
-
-FURWARE text is not a ready-made display board but is intented for scripters who wish to integrate it in their own creations.
+FURWARE text **is not** a ready-made display board but is intented for **scripters** who wish to integrate it in their own creations.
 
 This script is open source under the MIT license. Please see the license text in the scripts and the documentation for details.
 
+You can get the latest release package including the display creator, meshes and font textures at http://marketplace.secondlife.com/p/FURWARE-text/141379
 
-=====  FURWARE text v2.0 - Deutsch  =====
+#### Deutsch
 
+Das Benutzerhandbuch sowie die Dokumentation für Entwickler ist verfügbar unter
 
-***  Das Benutzerhandbuch sowie die Dokumentation für Entwickler ist verfügbar unter
+http://wiki.secondlife.com/wiki/FURWARE_text
 
-    http://wiki.secondlife.com/wiki/FURWARE_text
+FURWARE text ist ein Second Life (R)-Skript zur **Darstellung von Text** mittels Texturen auf Prims. Es ist zum **Einbau in deine Objekte** gedacht in denen es von **deinen eigenen Skripten** gesteuert wird.
 
-***  Produktbeschreibung:
-
-FURWARE text ist ein Skript zur Darstellung von Text mittels Texturen auf Prims. Es ist zum Einbau in deine Objekte gedacht in denen es von deinen eigenen Skripten gesteuert wird.
-
-FURWARE text ist keine vorgefertigte Anzeigetafel sondern ist für Skripter gedacht, die es in ihre eigene Kreationen integrieren.
+FURWARE text **ist keine** vorgefertigte Anzeigetafel sondern ist für **Skripter** gedacht, die es in ihre eigene Kreationen integrieren.
 
 Das Skript ist Open Source unter der MIT-Lizenz; siehe auch den Lizenztext in den Skripten sowie die Dokumentation für Einzelheiten.
+
+Du kannst dir neueste Release-Paket inklusive dem Display Creator, Meshes und Schrift-Texturen unter http://marketplace.secondlife.com/p/FURWARE-text/141379 holen.
