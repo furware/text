@@ -130,7 +130,7 @@ default {
             } else if (message == "Help") {
                 llLoadURL(llGetOwner(), "An extensive manual is available online." +
                                         "\nEine ausführliche Anleitung ist online verfügbar.",
-                                        "http://www.furware.de/products/text/");
+                                        "http://wiki.secondlife.com/wiki/FURWARE_text");
             }
             return;
         } else if (inputType == "type") {
