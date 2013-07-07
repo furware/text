@@ -1,5 +1,6 @@
 FURWARE text is a text-on-prim script for Second Life (R). It has been open sourced under the MIT license in July 2013. Please also see http://wiki.secondlife.com/wiki/FURWARE_text for more information.
 
+You can get the whole package including the display creator, meshes and font textures at http://marketplace.secondlife.com/p/FURWARE-text-v20-open-source-Text-on-prims-with-a-single-script/141379
 
 From the readme notecard:
 
