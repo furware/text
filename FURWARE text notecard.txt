@@ -1,5 +1,7 @@
-=====  FURWARE text v2.0 - English  =====
+===== FURWARE text =====
 
+
+===  English  ===
 
 ***  The user manual as well as developer documentation is available at
 
@@ -14,12 +16,11 @@ FURWARE text is not a ready-made display board but is intented for scripters who
 This script is open source under the MIT license. Please see the license text in the scripts and the documentation for details.
 
 
-=====  FURWARE text v2.0 - Deutsch  =====
-
+===  Deutsch  ===
 
 ***  Das Benutzerhandbuch sowie die Dokumentation für Entwickler ist verfügbar unter
 
-    http://wiki.secondlife.com/wiki/FURWARE_text
+    http://wiki.secondlife.com/wiki/FURWARE_text/de
 
 ***  Produktbeschreibung:
 
