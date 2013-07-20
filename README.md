@@ -1,4 +1,4 @@
-### FURWARE text v2.0
+### FURWARE text
 
 #### English
 
@@ -26,7 +26,7 @@ Das Skript ist Open Source unter der MIT-Lizenz; siehe auch den Lizenztext in de
 
 Ein Benutzerhandbuch sowie die Dokumentation für Entwickler ist verfügbar unter
 
-http://wiki.secondlife.com/wiki/FURWARE_text
+http://wiki.secondlife.com/wiki/FURWARE_text/de
 
 Das neueste Release-Paket inklusive dem Display Creator, Meshes und Schrift-Texturen ist verfügbar unter
 
