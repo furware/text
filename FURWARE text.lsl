@@ -6,7 +6,7 @@
 //                                  000   ,F ¯°0#¡000L    //
 //  FURWARE text                   #00 ¡ ¡0     000#00 ^  //
 //                                 #0 ]O 00      #0 00 #L //
-//  Version 2.0                     0 #0 0O      J0 #0 0O //
+//  Version 2.0.1                   0 #0 0O      J0 #0 0O //
 //  Open Source                     v #00#0¡     #0 0 ]0O //
 //                                    J000000c_ J0   c00^ //
 //                                     0000c^00@NN ,#000  //
@@ -67,10 +67,9 @@ Ochi Wolfe - Initial development from 2010 to 2013.
 // Index offsets and stride size of data in "boxDataList".
 integer     BOX_DATA            = 0;    // The referenced data has type "string".
 integer     BOX_CONF            = 1;    // The referenced data has type "string".
-integer     BOX_SET_PTR         = 2;    // The referenced data has type "integer".
-integer     BOX_STATUS          = 3;    // The referenced data has type "integer".
-integer     BOX_GEOM            = 4;    // The referenced data has type "rotation".
-integer     BOX_STRIDE          = 5;
+integer     BOX_STATUS          = 2;    // The referenced data has type "integer".
+integer     BOX_GEOM            = 3;    // The referenced data has type "rotation".
+integer     BOX_STRIDE          = 4;
 
 // Tags used to remember the kind of the last performed action.
 integer     ACTION_CONTENT      = 1;    // Text or style may have been modified.
@@ -161,7 +160,7 @@ refresh() {
     while (boxDataIndex != end) {
         boxStatus = llList2Integer(boxDataList, boxDataIndex + BOX_STATUS);
         
-        if (boxStatus & 0x10) { // Dirty
+        if (boxStatus & 0x1000) { // Dirty
             // Set the factory default settings.
             cAlign  = dAlign  = "left";
             cTrim   = dTrim   = "on";
@@ -172,12 +171,12 @@ refresh() {
             cTags   = dTags   = "on";
             cForce  = dForce  = FALSE;
             
-            integer     setIndex        = llList2Integer(boxDataList, boxDataIndex + BOX_SET_PTR);
+            integer     setIndex        = (boxStatus >> 4) & 0xFF;
             rotation    boxGeometry     = llList2Rot(boxDataList, boxDataIndex + BOX_GEOM);
             
             // Load set data.
-            vector setGeometry = llList2Vector(setDataList, setIndex);
-            setAuxIndex = llList2Integer(setDataList, setIndex + 1);
+            vector setGeometry = llList2Vector(setDataList, 2*setIndex);
+            setAuxIndex = llList2Integer(setDataList, 2*setIndex+1);
             
             // Load box config.
             set(gConfAll, TRUE, TRUE);
@@ -212,7 +211,7 @@ refresh() {
             if      (~llSubStringIndex(cBorder, "1")) borderSt = 1;
             else if (~llSubStringIndex(cBorder, "2")) borderSt = 2;
             
-            if (boxStatus & 0x20) { // Potentially need to refresh borders?
+            if (boxStatus & 0x2000) { // Potentially need to refresh borders?
                 integer i;
                 
                 if (borderT) {
@@ -337,7 +336,8 @@ refresh() {
                                     
                                     integer i;
                                     for (i = 0; i < toAppend; ++i, --tokenLength, ++lineLength) {
-                                        line += [llSubStringIndex(CHARS, llGetSubString(token, i, i))];
+                                        integer charPos = llSubStringIndex(CHARS, llGetSubString(token, i, i));
+                                        if (~charPos) line += [charPos]; else line += [68]; // 68 = "?"
                                     }
                                     
                                     if ((cWrap != "none") && tokenLength) {
@@ -408,7 +408,7 @@ refresh() {
             
             // Mark box as clean.
             boxDataList = llListReplaceList(
-                boxDataList, [boxStatus & 0xF], boxDataIndex + BOX_STATUS, boxDataIndex + BOX_STATUS
+                boxDataList, [boxStatus & 0xFFF], boxDataIndex + BOX_STATUS, boxDataIndex + BOX_STATUS
             );
         }
         
@@ -455,7 +455,7 @@ draw(integer char, integer x, integer y) {
     integer layer = (cacheLayer >> 4*face) & 0xF;
     integer boxLayer = (boxStatus & 0xF);
     
-    if ((1 << layer) & (boxStatus >> 8)) { // Layer override
+    if ((0x10000 << layer) & boxStatus) { // Layer override
         cacheLayer = (cacheLayer & ~(0xF << 4*face)) | (boxLayer << 4*face);
         cacheDirty = cacheDirty | 1;
     } else if (layer != boxLayer) {
@@ -571,7 +571,7 @@ setDirty(integer action, integer first, integer last, integer isConf,
     for (i = first; i <= last; i += BOX_STRIDE) {
         integer setMatches = TRUE;
         if (~setIndex) {
-            setMatches = (llList2Integer(boxDataList, i + BOX_SET_PTR) == setIndex);
+            setMatches = (((llList2Integer(boxDataList, i + BOX_STATUS) >> 4) & 0xFF) == setIndex);
         }
         
         if (setMatches) {
@@ -585,7 +585,7 @@ setDirty(integer action, integer first, integer last, integer isConf,
             j = i + BOX_STATUS;
             boxDataList = llListReplaceList(
                 boxDataList, [
-                    llList2Integer(boxDataList, j) | 0x10 | (isConf * 0x20) | (newLayerOverrideBits << 8)
+                    llList2Integer(boxDataList, j) | 0x1000 | (isConf * 0x2000) | (newLayerOverrideBits << 16)
                 ], j, j
             );
         }
@@ -597,17 +597,11 @@ setDirty(integer action, integer first, integer last, integer isConf,
     }
 }
 
-integer getNumberOfPrims() {
-    return llGetObjectPrimCount(llGetKey())+llGetNumberOfPrims()*!!llGetAttached();
-}
-
 ////////// STATES //////////////////////////////////////////
 
 default {
     state_entry() {
         llOwnerSay("FURWARE text is starting...");
-        
-        llOwnerSay((string)llGetFreeMemory() + " bytes free.");
         
         CHARS = llBase64ToString(
             "IGFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6QUJDREVGR0hJSktMTU5PUFFS" +
@@ -627,7 +621,7 @@ default {
         );
         
         // Remember prim count to detect changes later on.
-        primCount = getNumberOfPrims();
+        primCount = llGetObjectPrimCount(llGetKey())+llGetNumberOfPrims()*!!llGetAttached();
         
         // Determine which link IDs to iterate.
         integer linkMin;
@@ -736,7 +730,7 @@ default {
             
             setDataList += [<colCount, rowCount, faceCount>, setAuxPtr];
             boxNameList += [llList2String(sets, set)];
-            boxDataList += ["", "", 2*setCount, 0, <0, 0, colCount*faceCount, rowCount>];
+            boxDataList += ["", "", setCount << 4, <0, 0, colCount*faceCount, rowCount>];
             
             boxDataLength += BOX_STRIDE;
             ++setCount;
@@ -755,12 +749,11 @@ default {
     }
     
     link_message(integer sender, integer num, string str, key id) {
+        if (!setCount) return;
         if (llGetSubString(id, 0, 2) != "fw_") return;
         
         list tokens = llParseStringKeepNulls(id, [":"], []);
         string token0 = llStringTrim(llList2String(tokens, 0), STRING_TRIM);
-        
-        if (!setCount) return;
         
         integer isConf = (token0 == "fw_conf");
         
@@ -791,7 +784,7 @@ default {
                     }
                     
                     first *= BOX_STRIDE;
-                    setIndex = llList2Integer(boxDataList, first + BOX_SET_PTR);
+                    setIndex = (llList2Integer(boxDataList, first + BOX_STATUS) >> 4) & 0xFF;
                 }
                 
                 if (boxToken1 != "") {
@@ -803,7 +796,7 @@ default {
                     }
                     
                     last *= BOX_STRIDE;
-                    integer secondSetIndex = llList2Integer(boxDataList, last + BOX_SET_PTR);
+                    integer secondSetIndex = (llList2Integer(boxDataList, last + BOX_STATUS) >> 4) & 0xFF;
                     
                     if (~setIndex && setIndex != secondSetIndex) {
                         llOwnerSay(token0 + ": Box sets must match when specifying a range.");
@@ -903,12 +896,12 @@ default {
             integer boxDataIndex = BOX_STRIDE * boxNameIndex;
             integer parDataIndex = BOX_STRIDE * parNameIndex;
             
-            integer setIndex = llList2Integer(boxDataList, parDataIndex + BOX_SET_PTR);
+            integer setIndex = (llList2Integer(boxDataList, parDataIndex + BOX_STATUS) >> 4) & 0xFF;
             
             integer layersUsed;
             integer b;
             for (b = 0; b < boxDataLength; b += BOX_STRIDE) {
-                if (setIndex == llList2Integer(boxDataList, b + BOX_SET_PTR)) {
+                if (setIndex == ((llList2Integer(boxDataList, b + BOX_STATUS) >> 4) & 0xFF)) {
                     layersUsed = layersUsed | (1 << (llList2Integer(boxDataList, b + BOX_STATUS) & 0xF));
                 }
             }
@@ -923,7 +916,7 @@ default {
             
             rotation boxGeom = (rotation)("<" + token3 + ">");
             rotation parGeom = llList2Rot(boxDataList, parDataIndex + BOX_GEOM);
-            vector   setGeom = llList2Vector(setDataList, setIndex);
+            vector   setGeom = llList2Vector(setDataList, 2*setIndex);
             
             boxGeom.x += parGeom.x;
             boxGeom.y += parGeom.y;
@@ -938,7 +931,7 @@ default {
             }
             
             boxNameList += [token1];
-            boxDataList += [str, token4, setIndex, boxLayer, boxGeom];
+            boxDataList += [str, token4, (setIndex << 4) | boxLayer, boxGeom];
             
             setDirty(ACTION_ADD_BOX, boxDataLength, boxDataLength, TRUE, 0xFFFF, -1, FALSE, "");
             boxDataLength += BOX_STRIDE;
@@ -962,10 +955,10 @@ default {
                 }
                 
                 integer boxDataIndex = BOX_STRIDE * boxNameIndex;
-                integer setIndex = llList2Integer(boxDataList, boxDataIndex + BOX_SET_PTR);
-                integer boxLayer = llList2Integer(boxDataList, boxDataIndex + BOX_STATUS) & 0xF;
+                integer boxStatus = llList2Integer(boxDataList, boxDataIndex + BOX_STATUS);
                 
-                setDirty(ACTION_DEL_BOX, 0, boxDataIndex - BOX_STRIDE, TRUE, 1 << boxLayer, setIndex, FALSE, "");
+                setDirty(ACTION_DEL_BOX, 0, boxDataIndex - BOX_STRIDE, TRUE,
+                         1 << (boxStatus & 0xF), (boxStatus >> 4) & 0xFF, FALSE, "");
                 
                 boxNameList = llDeleteSubList(boxNameList, boxNameIndex, boxNameIndex);
                 boxDataList = llDeleteSubList(boxDataList, boxDataIndex, boxDataIndex + BOX_STRIDE - 1);
@@ -979,7 +972,7 @@ default {
         }
         
         if (token0 == "fw_touchquery") {
-            // Need to flush first so that BOX_STATUS only contains the box layer.
+            // Need to flush first so that BOX_STATUS only contains the set index and box layer.
             if (lastAction) refresh();
             
             string reply = "::::::" + str;
@@ -996,10 +989,10 @@ default {
                     integer auxIndex = llListFindList(primLinkList, [link]);
                     if (~auxIndex) {
                         integer layer = (llList2Integer(primLayerList, auxIndex) >> (4*face)) & 0xF;
-                        integer boxIndex = llListFindList(boxDataList, [2*rootIndex, layer]);
+                        integer boxIndex = llListFindList(boxDataList, [(rootIndex << 4) | layer]);
                         
                         if (~boxIndex) {
-                            boxIndex -= BOX_SET_PTR;
+                            boxIndex -= BOX_STATUS;
                             
                             vector   setGeom = llList2Vector(setDataList, 2*rootIndex);
                             rotation boxGeom = llList2Rot(boxDataList, boxIndex + BOX_GEOM);
@@ -1044,7 +1037,7 @@ default {
     
     changed(integer change) {
         if (change & CHANGED_LINK) {
-            if (getNumberOfPrims() != primCount) {
+            if (llGetObjectPrimCount(llGetKey())+llGetNumberOfPrims()*!!llGetAttached() != primCount) {
                 llResetScript();
             }
         }
