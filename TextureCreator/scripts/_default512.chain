@@ -1,0 +1,8 @@
+setOutputNameSuffix -512
+
+runScript _init512.script
+runScript _basic.script
+runScript _extended.script
+runScript _special.script
+runScript _graphics.script
+runScript _furware.script

@@ -1,0 +1,18 @@
+jumpToCell 0 9
+
+loadFont fonts/DejaVu/DejaVu.ttf
+
+drawChars                 ▲◀▼▶○◔◑◕●
+drawChars                 ↑←↓→↺↻☐☑☒
+drawChars                    ↕↔♀♂⚠ 
+drawChars      ♪♫♠♣♥♦⚀⚁⚂⚃⚄⚅✔✘☺☹
+
+
+jumpToCell 24 11
+
+loadFont fonts/FreeSerif/FreeSerif.ttf
+
+drawChars ℹ❌⌖∡⌛⌚
+
+# Revert to the font currently being processed.
+loadFont

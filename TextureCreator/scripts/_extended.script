@@ -1,0 +1,8 @@
+# Load the font that is currently being processed.
+loadFont
+
+drawChars àáâã
+drawChars äåæªçðèéêëìíîïñòóôõöøœºÞš
+drawChars ßùúûüýÿžÀÁÂÃÄÅÆÇÐÈÉÊËÌÍÎÏ
+drawChars ÑÒÓÔÕÖØŒþŠÙÚÛÜÝŸŽ¢£€¥§µ¡¿
+drawChars ©®±×÷·°¹²³«»¬…‹›–¼½¾™•

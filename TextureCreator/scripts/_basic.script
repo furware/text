@@ -1,0 +1,7 @@
+# Load the font that is currently being processed.
+loadFont
+
+drawChars  abcdefghijklmnopqrstuvwx
+drawChars yzABCDEFGHIJKLMNOPQRSTUVW
+drawChars XYZ0123456789.,:;!?"'´`^~
+drawChars +-*/\|()[]{}<>=@$%&#_

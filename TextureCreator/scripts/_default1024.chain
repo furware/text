@@ -1,0 +1,8 @@
+setOutputNameSuffix -1024
+
+runScript _init1024.script
+runScript _basic.script
+runScript _extended.script
+runScript _special.script
+runScript _graphics.script
+runScript _furware.script

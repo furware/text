@@ -1,0 +1,5 @@
+FURWARE texture creator is a font texture generator for the FURWARE text script text-on-prim script for Second Life(R). It may be used to automatically create textures conforming to the text script's specifications from TrueType/OpenType font files.
+
+Only a minimal set of font files is included in this package to avoid some licensing issues. However, the package includes a set of configuration files for creating all font textures included in the FURWARE text package. You just need to download the font files and put them into the respective sub-directory of the "fonts" directory.
+
+Please see http://wiki.secondlife.com/wiki/FURWARE_text for links to font files as well as a usage guide.
