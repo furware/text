@@ -21,6 +21,10 @@ from lib.ScriptReader import ScriptReader
 
 FONTS_DIR   = "fonts"
 SCRIPTS_DIR = "scripts"
+OUTPUT_DIR  = "output"
+
+if not os.path.exists(OUTPUT_DIR):
+	os.mkdir(OUTPUT_DIR)
 
 # Iterate through all directories in the "fonts" directory.
 for fontName in os.listdir(FONTS_DIR):
