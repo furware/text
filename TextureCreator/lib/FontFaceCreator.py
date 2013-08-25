@@ -18,6 +18,7 @@ http://www.cairographics.org/freetypepython/
 import cairo
 import ctypes
 import ctypes.util
+import os
 
 _freetypeInitialized = False
 
@@ -27,6 +28,15 @@ class PycairoContext(ctypes.Structure):
         ("ctx", ctypes.c_void_p),
         ("base", ctypes.c_void_p)
     ]
+
+def findLib(fileNameGuess, libNameGuesses):
+    if os.path.exists(fileNameGuess):
+        return fileNameGuess
+    for libNameGuess in libNameGuesses:
+        libPath = ctypes.util.find_library(libNameGuess)
+        if libPath:
+            return libPath
+    return None
 
 def fontFaceFromFile(filename):
     global _freetypeInitialized
@@ -40,11 +50,11 @@ def fontFaceFromFile(filename):
 
     if not _freetypeInitialized:
         # Find shared libraries.
-        freetypeLibName = ctypes.util.find_library("freetype")
+        freetypeLibName = findLib("freetype6.dll", ["freetype", "freetype6"])
         if not freetypeLibName:
             raise Exception("FreeType library not found.")
         
-        cairoLibName = ctypes.util.find_library("cairo")
+        cairoLibName = findLib("libcairo-2.dll", ["cairo", "libcairo-2"])
         if not cairoLibName:
             raise Exception("Cairo library not found.")
         
