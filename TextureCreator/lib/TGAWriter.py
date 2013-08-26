@@ -15,7 +15,7 @@ def writeTGA(width, height, bitsPerColor, bitsPerPixel, data, path):
     header = struct.pack(FORMAT,
         0,             # Offset
         0,             # ColorType
-        3,             # ImageType
+        2,             # ImageType
         0,             # PaletteStart
         0,             # PaletteLen
         bitsPerColor,  # PalBits

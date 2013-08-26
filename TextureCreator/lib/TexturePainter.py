@@ -191,15 +191,14 @@ class TexturePainter:
 
         arr = bytearray(buf)
 
-        del arr[0::4]
-        del arr[0::3]
-
         if not self.debugGrid:
-            arr[0::2] = itertools.repeat(255, self.gridConfig.imageSize[0] * self.gridConfig.imageSize[1])
+            arr[0::4] = itertools.repeat(255, self.gridConfig.imageSize[0] * self.gridConfig.imageSize[1])
+            arr[1::4] = itertools.repeat(255, self.gridConfig.imageSize[0] * self.gridConfig.imageSize[1])
+            arr[2::4] = itertools.repeat(255, self.gridConfig.imageSize[0] * self.gridConfig.imageSize[1])
 
         targetPath = os.path.join(OUTPUT_DIR, self.outputName + ".tga")
 
-        TGAWriter.writeTGA(self.gridConfig.imageSize[0], self.gridConfig.imageSize[1], 8, 16, arr, targetPath)
+        TGAWriter.writeTGA(self.gridConfig.imageSize[0], self.gridConfig.imageSize[1], 8, 32, arr, targetPath)
 
     def init(self, args):
         imageSizeX = int(math.floor(args[2] * args[0]))
