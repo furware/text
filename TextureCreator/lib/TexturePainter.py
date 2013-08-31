@@ -27,11 +27,12 @@ SCRIPTS_DIR = "scripts"
 
 class GridConfig:
     def __init__(self, args):
-        self.imageSize    = (args[0], args[1])
-        self.cellSize     = (32, 64)
-        self.begin        = (32, 44)
-        self.spacing      = (40, 72)
-        self.cellCount    = (25, 14)
+        self.imageSize          = (args[0], args[1])
+        self.cellSize           = (32, 64)
+        self.begin              = (32, 44)
+        self.spacing            = (40, 72)
+        self.cellCount          = (25, 14)
+        self.baselineOffset     = 18.0
 
 class CharConfig:
     def __init__(self, args):
@@ -44,10 +45,9 @@ class FontConfig:
     def __init__(self, fontConfPath):
         self.offsetX = 0
         self.offsetY = 0
-        self.offsetXUnit = ""
-        self.offsetYUnit = ""
+        self.offsetXUnit = "abs"
+        self.offsetYUnit = "abs"
         self.perCharConfigs = {}
-        self.guessingChar = "X"
         self.scale = 0.75
         self.scaleUnit = "cellHeight"
         self.autoShrink = False
@@ -59,19 +59,16 @@ class FontConfig:
 
         while fontConf.more():
             if fontConf.getCmd() == "offset":
-                [self.offsetX, self.offsetY, self.offsetXUnit, self.offsetYUnit] = fontConf.getArgs([int, int, str, str])
+                [self.offsetX, self.offsetY, self.offsetXUnit, self.offsetYUnit] = fontConf.getArgs([float, float, str, str])
 
             elif fontConf.getCmd() == "scale":
                 [self.scale, self.scaleUnit] = fontConf.getArgs([float, str])
-            
-            elif fontConf.getCmd() == "guessingChar":
-                self.guessingChar = fontConf.getArgs([unicode])[0]
 
             elif fontConf.getCmd() == "enableAutoShrink":
                 self.autoShrink = True
             
-            elif fontConf.getCmd() == "charOffset":
-                args = fontConf.getArgs([unicode, int, int, float, float])
+            elif fontConf.getCmd() == "charSettings":
+                args = fontConf.getArgs([unicode, float, float, float, float])
                 self.perCharConfigs[args[0]] = CharConfig(args[1:])
 
     def getCharConfig(self, char):
@@ -134,6 +131,10 @@ class TexturePainter:
             elif script.getCmd() == "setCellCount":
                 self.gridConfig.cellCount = script.getArgs([int, int])
             
+            elif script.getCmd() == "setBaselineOffset":
+                args = script.getArgs([float, str])
+                self.gridConfig.baselineOffset = args[0] * self.convertScaleUnit(args[1])
+
             elif script.getCmd() == "drawLineBetweenCells":
                 self.lineBetweenCells(*[int(arg) for arg in script.getArgs([int, int, int, int, int, int, int, int, int])])
             
@@ -234,37 +235,28 @@ class TexturePainter:
         self.cairoContext.set_font_size(self.fontSize)
 
         self.fontExtents = FontExtents(self.cairoContext)
-        self.fontExtents.update(self.fontConfig.guessingChar)
-
-        self.guessedYOffset = self.fontExtents.ySize / 2
 
     def jumpToCell(self, x, y):
         self.currentCol = int(x)
         self.currentRow = int(y)
 
     def drawChar(self, char):
-        fontSizeX = self.fontSize
-        fontSizeY = self.fontSize
-
-        if self.fontConfig.autoShrink:
-            self.cairoContext.set_font_size(1)
-            self.fontExtents.update(char)
-
-            if self.fontExtents.xSize > 0:
-                widthGuess = self.gridConfig.cellSize[0] / self.fontExtents.xSize
-                if widthGuess < self.fontSize:
-                    fontSizeX = widthGuess
-        
         charConfig = self.fontConfig.getCharConfig(char)
         
-        fontSizeX *= charConfig.scaleX
-        fontSizeY *= charConfig.scaleY
+        fontSizeX = self.fontSize * charConfig.scaleX
+        fontSizeY = self.fontSize * charConfig.scaleY
         
         self.cairoContext.set_font_matrix(cairo.Matrix(xx = fontSizeX, yy = fontSizeY))
         self.fontExtents.update(char)
 
-        xOffset = -self.fontExtents.xAdvance / 2
-        yOffset = self.guessedYOffset
+        if self.fontConfig.autoShrink:
+            if self.fontExtents.xSize > self.gridConfig.cellSize[0]:
+                fontSizeX *= self.gridConfig.cellSize[0] / self.fontExtents.xSize
+                self.cairoContext.set_font_matrix(cairo.Matrix(xx = fontSizeX, yy = fontSizeY))
+                self.fontExtents.update(char)
+        
+        xOffset = -self.fontExtents.xAdvance / 2.0
+        yOffset = self.gridConfig.baselineOffset
 
         xOffset += self.fontConfig.offsetX * self.convertScaleUnit(self.fontConfig.offsetXUnit)
         yOffset += self.fontConfig.offsetY * self.convertScaleUnit(self.fontConfig.offsetYUnit)
@@ -276,8 +268,10 @@ class TexturePainter:
         y = self.gridConfig.begin[1] + self.currentRow * self.gridConfig.spacing[1] + yOffset
         
         self.cairoContext.move_to(x, y)
-        self.cairoContext.show_text(char)
-        
+
+        self.cairoContext.text_path(char)
+        self.cairoContext.fill()
+
         self.currentCol += 1
         if self.currentCol >= self.gridConfig.cellCount[0]:
             self.currentRow += 1

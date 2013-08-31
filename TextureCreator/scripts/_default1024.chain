@@ -1,6 +1,7 @@
+init 1024 1024 1.0 1.0
 setOutputNameSuffix -1024
 
-runScript _init1024.script
+runScript _init.script
 runScript _basic.script
 runScript _extended.script
 runScript _special.script
