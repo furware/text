@@ -14,6 +14,7 @@ writes the result out to an image file.
 '''
 
 import cairo
+import glob
 import itertools
 import math
 import os
@@ -22,7 +23,8 @@ from . import FontFaceCreator
 from . import TGAWriter
 from ScriptReader import ScriptReader
 
-OUTPUT_DIR = "output"
+FONTS_DIR   = "fonts"
+OUTPUT_DIR  = "output"
 SCRIPTS_DIR = "scripts"
 
 class GridConfig:
@@ -149,9 +151,16 @@ class TexturePainter:
                     self.drawChar(char)
             
             elif script.getCmd() == "loadFont":
-                fontPath = script.getRawArg()
-                if fontPath == "":
+                fontName = script.getRawArg()
+                fontPath = ""
+                if fontName == "":
                     fontPath = defaultFont
+                else:
+                    fontFilePaths = glob.glob(os.path.join(FONTS_DIR, fontName, "*.[o,t]tf")) \
+                                  + glob.glob(os.path.join(FONTS_DIR, fontName, "*.[O,T]TF"))
+                    if len(fontFilePaths) < 1:
+                        raise Exception("No font file found for font \"" + fontName + "\".")
+                    fontPath = fontFilePaths[0]
                 self.loadFont(fontPath)
             
             elif script.getCmd() == "jumpToCell":

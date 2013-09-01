@@ -24,11 +24,12 @@ SCRIPTS_DIR = "scripts"
 OUTPUT_DIR  = "output"
 
 if not os.path.exists(OUTPUT_DIR):
-	os.mkdir(OUTPUT_DIR)
+    os.mkdir(OUTPUT_DIR)
 
 # Iterate through all directories in the "fonts" directory.
 for fontName in os.listdir(FONTS_DIR):
-    fontFilePaths = glob.glob(os.path.join(FONTS_DIR, fontName, "*.[o,t]tf"))
+    fontFilePaths = glob.glob(os.path.join(FONTS_DIR, fontName, "*.[o,t]tf")) \
+                  + glob.glob(os.path.join(FONTS_DIR, fontName, "*.[O,T]TF"))
     
     # Ignore this font directory is there are no font files inside it.
     if len(fontFilePaths) < 1:

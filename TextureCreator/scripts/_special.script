@@ -1,6 +1,6 @@
 jumpToCell 0 9
 
-loadFont fonts/DejaVu/DejaVu.ttf
+loadFont DejaVu
 
 drawChars                 ▲◀▼▶○◔◑◕●
 drawChars                 ↑←↓→↺↻☐☑☒
@@ -10,7 +10,7 @@ drawChars      ♪♫♠♣♥♦⚀⚁⚂⚃⚄⚅✔✘☺☹
 
 jumpToCell 24 11
 
-loadFont fonts/FreeSerif/FreeSerif.ttf
+loadFont FreeSerif
 
 drawChars ℹ❌⌖∡⌛⌚
 
