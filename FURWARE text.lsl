@@ -693,7 +693,7 @@ default {
                     ++newColCount;
                     integer link = llList2Integer(primLinkList, 3*dataIndex+2);
                     integer newFaceCount = llList2Integer(primLinkList, 3*dataIndex+1);
-						  if (!newFaceCount) newFaceCount = llGetLinkNumberOfSides(link);
+                    if (!newFaceCount) newFaceCount = llGetLinkNumberOfSides(link);
                     
                     if (faceCount) {
                         if (newFaceCount != faceCount) {
