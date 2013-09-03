@@ -6,7 +6,7 @@
 //                                  000   ,F ¯°0#¡000L    //
 //  FURWARE text                   #00 ¡ ¡0     000#00 ^  //
 //                                 #0 ]O 00      #0 00 #L //
-//  Version 2.0.2                   0 #0 0O      J0 #0 0O //
+//  Version 2.0.1-git               0 #0 0O      J0 #0 0O //
 //  Open Source                     v #00#0¡     #0 0 ]0O //
 //                                    J000000c_ J0   c00^ //
 //                                     0000c^00@NN ,#000  //
@@ -58,17 +58,10 @@ THE SOFTWARE.
 
 /*
 
-Version 2.0.2: ElectaFox Spark
-* Order of operations and variable naming fixes so that the script compiles under OpenSim
-* Add a temporary fix for OpenSim users regarding llGetLinkNumberOfSides()'s current inability to gather the number of faces from a mesh object properly (It always returns 8 regardless of the actual number of sides)
-
-Version 1.x.x - 2.0.1: Ochi Wolfe - Initial development from 2010 to 2013.
+ElectaFox Spark - Fixes for compatibility with OpenSim.
+Ochi Wolfe      - Initial development from 2010 to 2013.
 
 */
-
-////////// CONFIGURABLES ////////////////////////////////////
-
-integer giOpenSim = FALSE; //If TRUE, this tells the script to get set face information from the item description in the format set_name1,num_faces,set_name2,num_faces (etc). as a temporary work around for llGetLinkNumberOfSides()'s current inability to gather the number of faces from a mesh object properly (It always returns 8 regardless of the actual number of sides). This may be removed once it is fixed on OpenSim.
 
 ////////// CONSTANTS ///////////////////////////////////////
 
@@ -608,8 +601,7 @@ setDirty(integer action, integer first, integer last, integer isConf,
 ////////// STATES //////////////////////////////////////////
 
 default {
-    state_entry()
-    {
+    state_entry() {
         llOwnerSay("FURWARE text is starting...");
         
         CHARS = llBase64ToString(
@@ -658,7 +650,7 @@ default {
                         (set1 << 20) |
                         ((llList2Integer(tokens, 2) & 0x3FF) << 10) |
                         (llList2Integer(tokens, 3) & 0x3FF),
-                        linkMin
+                        llList2Integer(tokens, 4), linkMin
                     ];
                     ++dataLength;
                 }
@@ -673,7 +665,7 @@ default {
         }
         
         // Sort the data according to their set1-row-col values.
-        primLinkList = llListSort(primLinkList, 2, TRUE);
+        primLinkList = llListSort(primLinkList, 3, TRUE);
         
         // Parse the gathered data.
         integer dataIndex;
@@ -699,28 +691,9 @@ default {
                 do { // Col
                     
                     ++newColCount;
-                    integer link = llList2Integer(primLinkList, 2*dataIndex+1);
-                    integer newFaceCount = llGetLinkNumberOfSides(link);
-                    
-                    //OpenSim Workaround ---------------------------------------------------------
-                    // This can be removed once OS fixes proper face count for mesh objects
-                    
-                    if(giOpenSim)
-                    {                    
-                        list facesDesc = llCSV2List(llGetObjectDesc());                        
-                        string thisSet = llList2String(sets, set2);                        
-                        integer find = llListFindList(facesDesc, [thisSet]);
-                        
-                        if(find != -1) newFaceCount = (integer)llList2String(facesDesc, find + 1);                        
-                        else
-                        {
-                            llOwnerSay("I am missing a face configuration for the set '" + thisSet + "'");
-                            setCount = 0;
-                            return;
-                        }
-                    }    
-                                    
-                    //-----------------------------------------------------------------------------
+                    integer link = llList2Integer(primLinkList, 3*dataIndex+2);
+                    integer newFaceCount = llList2Integer(primLinkList, 3*dataIndex+1);
+						  if (!newFaceCount) newFaceCount = llGetLinkNumberOfSides(link);
                     
                     if (faceCount) {
                         if (newFaceCount != faceCount) {
@@ -730,14 +703,14 @@ default {
                         }
                     } else {
                         faceCount = newFaceCount;
-                    }              
+                    }
                     
                     llSetLinkPrimitiveParamsFast(link, [
                         PRIM_TEXTURE, ALL_SIDES, TEXTURE_TRANSPARENT,
                         <1.0, 1.0, 0.0>, ZERO_VECTOR, 0.0
                     ]);
                     
-                    setrowcol = llList2Integer(primLinkList, 2*(++dataIndex));
+                    setrowcol = llList2Integer(primLinkList, 3*(++dataIndex));
                     nextSet = (setrowcol >> 20) & 0x3FF;
                     nextRow = (setrowcol >> 10) & 0x3FF;
                     
@@ -768,8 +741,8 @@ default {
             
         } while (dataIndex < dataLength);
         
-        primLinkList = llDeleteSubList(primLinkList, 0, 0);
-        primLinkList = llList2ListStrided(primLinkList, 0, -1, 2);
+        primLinkList = llDeleteSubList(primLinkList, 0, 1);
+        primLinkList = llList2ListStrided(primLinkList, 0, -1, 3);
         while (dataIndex--) primFillList += [0];
         primLayerList = primFillList;
         

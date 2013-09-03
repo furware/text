@@ -206,7 +206,7 @@ state Create {
         vector color = <1.0, 1.0, 1.0>;
         if ((col+row)%2) color = <0.7, 0.7, 0.7>;
         
-        llRegionSayTo(id, -2783468, "FURWARE text mesh:" + setName + ":" + (string)row + ":" + (string)col + ";" + (string)color + ";" + (string)scale);
+        llRegionSayTo(id, -2783468, "FURWARE text mesh:" + setName + ":" + (string)row + ":" + (string)col + ":" + (string)primType + ";" + (string)color + ";" + (string)scale);
         
         ++cur;
         ++col;
