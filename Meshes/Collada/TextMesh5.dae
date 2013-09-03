@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset>
+    <contributor>
+      <author>Blender User</author>
+      <authoring_tool>Blender 2.63.17 r49356</authoring_tool>
+    </contributor>
+    <created>2012-08-03T23:23:43</created>
+    <modified>2012-08-03T23:23:43</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_images/>
+  <library_effects>
+    <effect id="Face_0-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <color sid="diffuse">0.64 0.64 0.64 1</color>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.5 0.5 0.5 1</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">50</float>
+            </shininess>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+        <extra>
+          <technique profile="GOOGLEEARTH">
+            <double_sided>1</double_sided>
+          </technique>
+        </extra>
+      </profile_COMMON>
+      <extra><technique profile="MAX3D"><double_sided>1</double_sided></technique></extra>
+    </effect>
+    <effect id="Face_1-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <color sid="diffuse">0.64 0.64 0.64 1</color>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.5 0.5 0.5 1</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">50</float>
+            </shininess>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+        <extra>
+          <technique profile="GOOGLEEARTH">
+            <double_sided>1</double_sided>
+          </technique>
+        </extra>
+      </profile_COMMON>
+      <extra><technique profile="MAX3D"><double_sided>1</double_sided></technique></extra>
+    </effect>
+    <effect id="Face_2-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <color sid="diffuse">0.64 0.64 0.64 1</color>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.5 0.5 0.5 1</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">50</float>
+            </shininess>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+        <extra>
+          <technique profile="GOOGLEEARTH">
+            <double_sided>1</double_sided>
+          </technique>
+        </extra>
+      </profile_COMMON>
+      <extra><technique profile="MAX3D"><double_sided>1</double_sided></technique></extra>
+    </effect>
+    <effect id="Face_3-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <color sid="diffuse">0.64 0.64 0.64 1</color>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.5 0.5 0.5 1</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">50</float>
+            </shininess>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+        <extra>
+          <technique profile="GOOGLEEARTH">
+            <double_sided>1</double_sided>
+          </technique>
+        </extra>
+      </profile_COMMON>
+      <extra><technique profile="MAX3D"><double_sided>1</double_sided></technique></extra>
+    </effect>
+    <effect id="Face_4-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <color sid="diffuse">0.64 0.64 0.64 1</color>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.5 0.5 0.5 1</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">50</float>
+            </shininess>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+        <extra>
+          <technique profile="GOOGLEEARTH">
+            <double_sided>1</double_sided>
+          </technique>
+        </extra>
+      </profile_COMMON>
+      <extra><technique profile="MAX3D"><double_sided>1</double_sided></technique></extra>
+    </effect>
+    <effect id="Face_5-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <color sid="diffuse">0.64 0.64 0.64 1</color>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.5 0.5 0.5 1</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">50</float>
+            </shininess>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+        <extra>
+          <technique profile="GOOGLEEARTH">
+            <double_sided>1</double_sided>
+          </technique>
+        </extra>
+      </profile_COMMON>
+      <extra><technique profile="MAX3D"><double_sided>1</double_sided></technique></extra>
+    </effect>
+    <effect id="Face_6-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <color sid="diffuse">0.64 0.64 0.64 1</color>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.5 0.5 0.5 1</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">50</float>
+            </shininess>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+        <extra>
+          <technique profile="GOOGLEEARTH">
+            <double_sided>1</double_sided>
+          </technique>
+        </extra>
+      </profile_COMMON>
+      <extra><technique profile="MAX3D"><double_sided>1</double_sided></technique></extra>
+    </effect>
+    <effect id="Face_7-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <color sid="diffuse">0.64 0.64 0.64 1</color>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.5 0.5 0.5 1</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">50</float>
+            </shininess>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+        <extra>
+          <technique profile="GOOGLEEARTH">
+            <double_sided>1</double_sided>
+          </technique>
+        </extra>
+      </profile_COMMON>
+      <extra><technique profile="MAX3D"><double_sided>1</double_sided></technique></extra>
+    </effect>
+  </library_effects>
+  <library_materials>
+    <material id="Face_0-material" name="Face_0-material">
+      <instance_effect url="#Face_0-effect"/>
+    </material>
+    <material id="Face_1-material" name="Face_1-material">
+      <instance_effect url="#Face_1-effect"/>
+    </material>
+    <material id="Face_2-material" name="Face_2-material">
+      <instance_effect url="#Face_2-effect"/>
+    </material>
+    <material id="Face_3-material" name="Face_3-material">
+      <instance_effect url="#Face_3-effect"/>
+    </material>
+    <material id="Face_4-material" name="Face_4-material">
+      <instance_effect url="#Face_4-effect"/>
+    </material>
+    <material id="Face_5-material" name="Face_5-material">
+      <instance_effect url="#Face_5-effect"/>
+    </material>
+    <material id="Face_6-material" name="Face_6-material">
+      <instance_effect url="#Face_6-effect"/>
+    </material>
+    <material id="Face_7-material" name="Face_7-material">
+      <instance_effect url="#Face_7-effect"/>
+    </material>
+  </library_materials>
+  <library_geometries>
+    <geometry id="TextMesh5-mesh" name="TextMesh5">
+      <mesh>
+        <source id="TextMesh5-mesh-positions">
+          <float_array id="TextMesh5-mesh-positions-array" count="66">0 0 -1 0 0 1 0 1 -1 0 1 1 0 2 -1 0 2 1 0 3 -1 0 3 1 0 4 -1 0 4 1 0 5 -1 0 5 1 0 5 -1 0 5 1 0 0 -1 0 0 1 0 5 -1 0 5 1 0 0 -1 0 0 1 0 5 -1 0 5 1</float_array>
+          <technique_common>
+            <accessor source="#TextMesh5-mesh-positions-array" count="22" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="TextMesh5-mesh-normals">
+          <float_array id="TextMesh5-mesh-normals-array" count="30">1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0</float_array>
+          <technique_common>
+            <accessor source="#TextMesh5-mesh-normals-array" count="10" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="TextMesh5-mesh-map-0">
+          <float_array id="TextMesh5-mesh-map-0-array" count="80">-15 8.3125 -15 7.3125 -14 7.3125 -14 8.3125 -14 7.3125 -14 8.3125 -15 8.3125 -15 7.3125 -14 7.3125 -14 8.3125 -15 8.3125 -15 7.3125 -14 7.3125 -14 8.3125 -15 8.3125 -15 7.3125 -14 7.3125 -14 8.3125 -15 8.3125 -15 7.3125 -15.0625 8.34375 -15.0625 8.40625 -15.1875 8.40625 -15.1875 8.34375 -15.1875 8.34375 -15.0625 8.34375 -15.0625 8.40625 -15.1875 8.40625 -15.0625 8.34375 -15.0625 8.40625 -15.1875 8.40625 -15.1875 8.34375 -15.1875 8.34375 -15.0625 8.34375 -15.0625 8.40625 -15.1875 8.40625 -15.0625 8.34375 -15.0625 8.40625 -15.1875 8.40625 -15.1875 8.34375</float_array>
+          <technique_common>
+            <accessor source="#TextMesh5-mesh-map-0-array" count="40" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="TextMesh5-mesh-vertices">
+          <input semantic="POSITION" source="#TextMesh5-mesh-positions"/>
+        </vertices>
+        <polylist material="Face_0-material" count="2">
+          <input semantic="VERTEX" source="#TextMesh5-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#TextMesh5-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#TextMesh5-mesh-map-0" offset="2" set="0"/>
+          <vcount>4 4 </vcount>
+          <p>1 0 0 0 0 1 2 0 2 3 0 3 0 5 20 1 5 21 13 5 22 12 5 23</p>
+        </polylist>
+        <polylist material="Face_1-material" count="2">
+          <input semantic="VERTEX" source="#TextMesh5-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#TextMesh5-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#TextMesh5-mesh-map-0" offset="2" set="0"/>
+          <vcount>4 4 </vcount>
+          <p>4 1 4 5 1 5 3 1 6 2 1 7 12 6 24 14 6 25 15 6 26 13 6 27</p>
+        </polylist>
+        <polylist material="Face_2-material" count="2">
+          <input semantic="VERTEX" source="#TextMesh5-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#TextMesh5-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#TextMesh5-mesh-map-0" offset="2" set="0"/>
+          <vcount>4 4 </vcount>
+          <p>6 2 8 7 2 9 5 2 10 4 2 11 14 7 28 15 7 29 17 7 30 16 7 31</p>
+        </polylist>
+        <polylist material="Face_3-material" count="2">
+          <input semantic="VERTEX" source="#TextMesh5-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#TextMesh5-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#TextMesh5-mesh-map-0" offset="2" set="0"/>
+          <vcount>4 4 </vcount>
+          <p>8 3 12 9 3 13 7 3 14 6 3 15 16 8 32 18 8 33 19 8 34 17 8 35</p>
+        </polylist>
+        <polylist material="Face_4-material" count="2">
+          <input semantic="VERTEX" source="#TextMesh5-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#TextMesh5-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#TextMesh5-mesh-map-0" offset="2" set="0"/>
+          <vcount>4 4 </vcount>
+          <p>10 4 16 11 4 17 9 4 18 8 4 19 18 9 36 19 9 37 21 9 38 20 9 39</p>
+        </polylist>
+      </mesh>
+      <extra><technique profile="MAYA"><double_sided>1</double_sided></technique></extra>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="TextMesh5" name="TextMesh5" type="NODE">
+        <translate sid="location">13 16 0</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1 1 1</scale>
+        <instance_geometry url="#TextMesh5-mesh">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="Face_0-material" target="#Face_0-material"/>
+              <instance_material symbol="Face_1-material" target="#Face_1-material"/>
+              <instance_material symbol="Face_2-material" target="#Face_2-material"/>
+              <instance_material symbol="Face_3-material" target="#Face_3-material"/>
+              <instance_material symbol="Face_4-material" target="#Face_4-material"/>
+              <instance_material symbol="Face_5-material" target="#Face_5-material"/>
+              <instance_material symbol="Face_6-material" target="#Face_6-material"/>
+              <instance_material symbol="Face_7-material" target="#Face_7-material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>
