@@ -6,7 +6,7 @@
 //                                  000   ,F ¯°0#¡000L    //
 //  FURWARE text                   #00 ¡ ¡0     000#00 ^  //
 //                                 #0 ]O 00      #0 00 #L //
-//  Version 2.0.1                   0 #0 0O      J0 #0 0O //
+//  Version 2.0.2                   0 #0 0O      J0 #0 0O //
 //  Open Source                     v #00#0¡     #0 0 ]0O //
 //                                    J000000c_ J0   c00^ //
 //                                     0000c^00@NN ,#000  //
@@ -58,9 +58,17 @@ THE SOFTWARE.
 
 /*
 
-Ochi Wolfe - Initial development from 2010 to 2013.
+Version 2.0.2: ElectaFox Spark
+* Order of operations and variable naming fixes so that the script compiles under OpenSim
+* Add a temporary fix for OpenSim users regarding llGetLinkNumberOfSides()'s current inability to gather the number of faces from a mesh object properly (It always returns 8 regardless of the actual number of sides)
+
+Version 1.x.x - 2.0.1: Ochi Wolfe - Initial development from 2010 to 2013.
 
 */
+
+////////// CONFIGURABLES ////////////////////////////////////
+
+integer giOpenSim = FALSE; //If TRUE, this tells the script to get set face information from the item description in the format set_name1,num_faces,set_name2,num_faces (etc). as a temporary work around for llGetLinkNumberOfSides()'s current inability to gather the number of faces from a mesh object properly (It always returns 8 regardless of the actual number of sides). This may be removed once it is fixed on OpenSim.
 
 ////////// CONSTANTS ///////////////////////////////////////
 
@@ -600,7 +608,8 @@ setDirty(integer action, integer first, integer last, integer isConf,
 ////////// STATES //////////////////////////////////////////
 
 default {
-    state_entry() {
+    state_entry()
+    {
         llOwnerSay("FURWARE text is starting...");
         
         CHARS = llBase64ToString(
@@ -639,14 +648,14 @@ default {
             if (llList2String(tokens, 0) == "FURWARE text mesh") {
                 string setStr = llList2String(tokens, 1);
                 if (setStr != "") {
-                    integer set = llListFindList(sets, [setStr]);
-                    if (!~set) {
-                        set = llGetListLength(sets);
+                    integer set1 = llListFindList(sets, [setStr]);
+                    if (!~set1) {
+                        set1 = llGetListLength(sets);
                         sets += [setStr];
                     }
                     
                     primLinkList += [
-                        (set << 20) |
+                        (set1 << 20) |
                         ((llList2Integer(tokens, 2) & 0x3FF) << 10) |
                         (llList2Integer(tokens, 3) & 0x3FF),
                         linkMin
@@ -663,18 +672,18 @@ default {
             return;
         }
         
-        // Sort the data according to their set-row-col values.
+        // Sort the data according to their set1-row-col values.
         primLinkList = llListSort(primLinkList, 2, TRUE);
         
         // Parse the gathered data.
         integer dataIndex;
         integer setrowcol = llList2Integer(primLinkList, dataIndex);
-        integer set = (setrowcol >> 20) & 0x3FF;
+        integer set2 = (setrowcol >> 20) & 0x3FF;
         integer row = (setrowcol >> 10) & 0x3FF;
         integer nextSet;
         integer nextRow;
         
-        do { // Set
+        do { // set2
             
             integer rowCount;
             integer colCount;
@@ -693,6 +702,26 @@ default {
                     integer link = llList2Integer(primLinkList, 2*dataIndex+1);
                     integer newFaceCount = llGetLinkNumberOfSides(link);
                     
+                    //OpenSim Workaround ---------------------------------------------------------
+                    // This can be removed once OS fixes proper face count for mesh objects
+                    
+                    if(giOpenSim)
+                    {                    
+                        list facesDesc = llCSV2List(llGetObjectDesc());                        
+                        string thisSet = llList2String(sets, set2);                        
+                        integer find = llListFindList(facesDesc, [thisSet]);
+                        
+                        if(find != -1) newFaceCount = (integer)llList2String(facesDesc, find + 1);                        
+                        else
+                        {
+                            llOwnerSay("I am missing a face configuration for the set '" + thisSet + "'");
+                            setCount = 0;
+                            return;
+                        }
+                    }    
+                                    
+                    //-----------------------------------------------------------------------------
+                    
                     if (faceCount) {
                         if (newFaceCount != faceCount) {
                             llOwnerSay("FW text: All prims within a set need to have the same number of faces.");
@@ -701,7 +730,7 @@ default {
                         }
                     } else {
                         faceCount = newFaceCount;
-                    }
+                    }              
                     
                     llSetLinkPrimitiveParamsFast(link, [
                         PRIM_TEXTURE, ALL_SIDES, TEXTURE_TRANSPARENT,
@@ -712,7 +741,7 @@ default {
                     nextSet = (setrowcol >> 20) & 0x3FF;
                     nextRow = (setrowcol >> 10) & 0x3FF;
                     
-                } while (dataIndex < dataLength && set == nextSet && row == nextRow);
+                } while (dataIndex < dataLength && set2 == nextSet && row == nextRow);
                 
                 if (colCount) {
                     if (newColCount != colCount) {
@@ -726,16 +755,16 @@ default {
                 
                 row = nextRow;
                 
-            } while (dataIndex < dataLength && set == nextSet);
+            } while (dataIndex < dataLength && set2 == nextSet);
             
             setDataList += [<colCount, rowCount, faceCount>, setAuxPtr];
-            boxNameList += [llList2String(sets, set)];
+            boxNameList += [llList2String(sets, set2)];
             boxDataList += ["", "", setCount << 4, <0, 0, colCount*faceCount, rowCount>];
             
             boxDataLength += BOX_STRIDE;
             ++setCount;
             
-            set = nextSet;
+            set2 = nextSet;
             
         } while (dataIndex < dataLength);
         
@@ -798,7 +827,7 @@ default {
                     last *= BOX_STRIDE;
                     integer secondSetIndex = (llList2Integer(boxDataList, last + BOX_STATUS) >> 4) & 0xFF;
                     
-                    if (~setIndex && setIndex != secondSetIndex) {
+                    if ((~setIndex) && setIndex != secondSetIndex) {
                         llOwnerSay(token0 + ": Box sets must match when specifying a range.");
                         jump SkipBox;
                     }
@@ -949,7 +978,7 @@ default {
                 string boxName = llStringTrim(llList2String(tokens, t), STRING_TRIM);
                 integer boxNameIndex = llListFindList(boxNameList, [boxName]);
                 
-                if (!~boxNameIndex || (boxNameIndex < setCount)) {
+                if (!(~boxNameIndex) || (boxNameIndex < setCount)) {
                     llOwnerSay("fw_delbox: Box \"" + boxName + "\" doesn't exist.");
                     jump SkipDelBox;
                 }
