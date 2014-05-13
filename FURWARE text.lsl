@@ -6,7 +6,7 @@
 //                                  000   ,F ¯°0#¡000L    //
 //  FURWARE text                   #00 ¡ ¡0     000#00 ^  //
 //                                 #0 ]O 00      #0 00 #L //
-//  Version 2.0.1-git               0 #0 0O      J0 #0 0O //
+//  Version 2.1-git                 0 #0 0O      J0 #0 0O //
 //  Open Source                     v #00#0¡     #0 0 ]0O //
 //                                    J000000c_ J0   c00^ //
 //                                     0000c^00@NN ,#000  //
@@ -32,7 +32,7 @@ http://wiki.secondlife.com/wiki/FURWARE_text
 
 MIT License
 
-Copyright (c) 2010-2013 Ochi Wolfe, FURWARE, the contributors
+Copyright (c) 2010-2014 Ochi Wolfe, FURWARE, the contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -58,8 +58,10 @@ THE SOFTWARE.
 
 /*
 
+TrixieJones     - Fixes for compatibility with InWorldz.
+Christine Nyn   - Fixes for compatibility with InWorldz.
 ElectaFox Spark - Fixes for compatibility with OpenSim.
-Ochi Wolfe      - Initial development from 2010 to 2013.
+Ochi Wolfe      - Initial development and general maintenance.
 
 */
 
@@ -105,7 +107,6 @@ list        tmplNameList;   // Names of stored templates.
 list        tmplDataList;   // Contents of stored templates.
 
 // Global configuration
-integer     gNotify;        // Whether notifications shall be sent when done.
 string      gConfAll;       // Base configuration for all boxes everywhere.
 string      gConfRoot;      // Base configuration for root boxes.
 string      gConfNonRoot;   // Base configuration for non-root boxes.
@@ -278,8 +279,9 @@ refresh() {
                     while ((partIndex < partLength || textIndex < textLength) && !rowDone) {
                         if (partIndex >= (partLength-1) && textIndex < textLength) {
                             part = llParseString2List(
+								// Separators list is non-empty for InWorldz compatibility.
                                 llGetSubString(text, textIndex, textIndex+boxW),
-                                [], [" ", "\n", "<!", ">"]
+                                [""], [" ", "\n", "<!", ">"]
                             );
                             partLength = llGetListLength(part);
                             partIndex = 0;
@@ -336,9 +338,11 @@ refresh() {
                                     }
                                     
                                     integer i;
-                                    for (i = 0; i < toAppend; ++i, --tokenLength, ++lineLength) {
+                                    for (i = 0; i < toAppend; ++i) {
                                         integer charPos = llSubStringIndex(CHARS, llGetSubString(token, i, i));
                                         if (~charPos) line += [charPos]; else line += [68]; // 68 = "?"
+                                        --tokenLength;
+                                        ++lineLength;
                                     }
                                     
                                     if ((cWrap != "none") && tokenLength) {
@@ -387,7 +391,7 @@ refresh() {
                     }
                     
                     integer x;
-                    for (x = boxX; x <= boxR; ++x, ++lineIndex) {
+                    for (x = boxX; x <= boxR; ++x) {
                         integer pos;
                         if (lineIndex >= 0 && lineIndex < lineLength) {
                             while (nextTagListIndex < tagCmdListLength && lineIndex >= nextTagCharIndex) {
@@ -397,6 +401,7 @@ refresh() {
                             pos = llList2Integer(line, lineIndex);
                         }
                         draw(pos, x, boxY + boxRow);
+                        ++lineIndex;
                     }
                     
                     while (nextTagListIndex < tagCmdListLength) {
@@ -418,10 +423,6 @@ refresh() {
     
     draw(-1, 0, 0); // Flush cache.
     lastAction = 0;
-    
-    if (gNotify) {
-        llMessageLinked(LINK_SET, 0, "", "fw_done");
-    }
 }
 
 draw(integer char, integer x, integer y) {
@@ -1018,8 +1019,9 @@ default {
             return;
         }
         
-        if (token0 == "fw_notify") {
-            gNotify = (str == "on");
+        if (token0 == "fw_flush") {
+            if (lastAction) refresh();
+            if (str != "") llMessageLinked(sender, 0, str, "fw_done");
             return;
         }
         
