@@ -279,7 +279,7 @@ refresh() {
                     while ((partIndex < partLength || textIndex < textLength) && !rowDone) {
                         if (partIndex >= (partLength-1) && textIndex < textLength) {
                             part = llParseString2List(
-								// Separators list is non-empty for InWorldz compatibility.
+                                // Separators list is non-empty for InWorldz compatibility.
                                 llGetSubString(text, textIndex, textIndex+boxW),
                                 [""], [" ", "\n", "<!", ">"]
                             );
