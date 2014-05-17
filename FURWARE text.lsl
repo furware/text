@@ -58,10 +58,10 @@ THE SOFTWARE.
 
 /*
 
-TrixieJones     - Fixes for compatibility with InWorldz.
-Christine Nyn   - Fixes for compatibility with InWorldz.
-ElectaFox Spark - Fixes for compatibility with OpenSim.
-Ochi Wolfe      - Initial development and general maintenance.
+Riendra Taselian - Fixes for compatibility with InWorldz.
+Christine Nyn    - Fixes for compatibility with InWorldz.
+ElectaFox Spark  - Fixes for compatibility with OpenSim.
+Ochi Wolfe       - Initial development and general maintenance.
 
 */
 
